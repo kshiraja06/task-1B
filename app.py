@@ -4,7 +4,7 @@ import streamlit as st
 # app title
 st.title("iyer’s ingredient list")
 
-st.write("filter ingredients by group, nutritional focus, or budget level to build balanced monsoon-season meal plans for a bangalore-based vegetarian household.")
+st.write("filter ingredients by group, nutritional focus, budget level, or a specific ingredient to build balanced monsoon-season meal plans for a bangalore-based vegetarian household.")
 
 # load dataset
 @st.cache_data
@@ -29,7 +29,7 @@ budget_filter = st.sidebar.multiselect(
     default=None
 )
 
-benefit_search = st.sidebar.text_input("search by nutritional focus or use")
+benefit_search = st.sidebar.text_input("search by nutritional focus, ingredient, or use")
 
 # filtering logic
 filtered_df = df.copy()
@@ -43,7 +43,8 @@ if budget_filter:
 if benefit_search:
     filtered_df = filtered_df[
         filtered_df["nutritional_benefit"].str.contains(benefit_search, case=False, na=False) |
-        filtered_df["used_for"].str.contains(benefit_search, case=False, na=False)
+        filtered_df["used_for"].str.contains(benefit_search, case=False, na=False) |
+        filtered_df["examples"].str.contains(benefit_search, case=False, na=False)
     ]
 
 # display results
