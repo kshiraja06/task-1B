@@ -2,10 +2,9 @@ import pandas as pd
 import streamlit as st
 
 # app title
-st.title("namma monsoon market — ingredient filter")
+st.title("iyer’s ingredient list")
 
-st.write("explore seasonal, budget-friendly vegetarian ingredients available in bangalore during june–july.")
-st.caption("data sourced from kr market, dmart, local vendors, and verified regional produce lists.")
+st.write("filter ingredients by group, nutritional focus, or budget level to build balanced monsoon-season meal plans for a bangalore-based vegetarian household.")
 
 # load dataset
 @st.cache_data
@@ -16,21 +15,21 @@ def load_data():
 df = load_data()
 
 # sidebar filters
-st.sidebar.header("filter options")
+st.sidebar.header("filters")
 
 category_filter = st.sidebar.multiselect(
-    "filter by category",
+    "group",
     options=df["category"].unique(),
     default=None
 )
 
 budget_filter = st.sidebar.multiselect(
-    "filter by budget level",
+    "budget level",
     options=df["budget_level"].unique(),
     default=None
 )
 
-benefit_search = st.sidebar.text_input("search by nutritional benefit or use keyword")
+benefit_search = st.sidebar.text_input("search by nutritional focus or use")
 
 # filtering logic
 filtered_df = df.copy()
@@ -50,7 +49,3 @@ if benefit_search:
 # display results
 st.dataframe(filtered_df, use_container_width=True)
 
-st.markdown("---")
-st.subheader("summary")
-st.write(f"**total items:** {len(filtered_df)}")
-st.write("use the filters on the left to narrow down ingredients by category, budget, or nutritional goal.")
